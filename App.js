@@ -3,14 +3,21 @@ import {
   StyleSheet,
   Text,
   View,
-  Platform,
-  TouchableOpacity,
   Alert,
+  Image
 } from 'react-native';
 import OneSignal from 'react-native-onesignal';
-import Toast from 'react-native-root-toast';
 
 class App extends Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      numOfPushNotifications: 0,
+      latest: "push notification not received yet"
+    }
+  }
+
   componentDidMount() {
     OneSignal.configure({
       onNotificationOpened: this.handleNotification,
@@ -18,31 +25,38 @@ class App extends Component {
   }
 
   handleNotification(message, data, isActive) {
-    if (isActive) {
-      Toast.show(message);
-    } else {
-      // NOTE: This is the point at which you would tap into your routing system
-      Alert.alert(message, JSON.stringify({ name: data.room }));
-    }
+    this.setState({
+      numOfPushNotifications: this.state.numOfPushNotifications + 1,
+      latest: message,
+    })
+
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to the OneSignal Example!
+        <Image
+          style={{flex:1, height: undefined, width: undefined}}
+          source={require('/images/logo.png')}
+          resizeMode="contain"
+        />
+        <Text style={styles.text}>
+          Created By: {"\n"}
+          Jamie Yu
         </Text>
-        <Text style={styles.instructions}>
-          Using {Platform.OS}? Cool.
+        <Text style={styles.text}>
+          Date: {"\n"}
+          March 5th, 2019
         </Text>
-        {Platform.OS === 'ios' ?
-          <TouchableOpacity
-            onPress={() => OneSignal.registerForPushNotifications()}
-            style={{ padding: 20, backgroundColor: '#3B5998' }}
-          >
-            <Text style={{ color: '#fff' }}>Request Push Notification Permission</Text>
-          </TouchableOpacity>
-        : null}
+        <Text style={styles.text}>
+          Number of Push Notifications: {"\n"}
+          {this.state.numOfPushNotifications}
+        </Text>
+        <Text style={styles.text}>
+          Latest Push Content: {"\n"}
+          {this.state.latest}
+        </Text>
+ 
       </View>
     );
   }
@@ -55,15 +69,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
+  text: {
+    fontSize: 8,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 

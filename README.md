@@ -1,5 +1,14 @@
-# OneSignal React Native Example
+# Simple Push Notification-Enabled Mobile App
 
-This repo goes along with a comprehensive tutorial on setting up OneSignal in React Native. (TODO).
+Stater Code was found in the following repo: https://github.com/spencercarli/react-native-onesignal-example
 
-If you want to try this out you'll need to make sure you setup the proper permissions with Apple and Google then swap out keys in `AppDelegate.m` and `build.gradle` (more information in the blog post).
+For code to compile properly permissions with Apple and Google must be obtained (for push notifications) and keys in 'AppDelegate.m' and 'build.gradle' must be replaced. 
+
+Instructions:
+npm install 
+npm start
+
+Main file is located in 'App.js'
+
+
+
